@@ -6,10 +6,12 @@ import Toast from 'react-native-toast-message';
 
 const App = () => {
   return (
-    <NavigationContainer>
+    <>
+      <NavigationContainer>
+        <StackNavigation />
+      </NavigationContainer>
       <Toast />
-      <StackNavigation />
-    </NavigationContainer>
+    </>
   );
 };
 

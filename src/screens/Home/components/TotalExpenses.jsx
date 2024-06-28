@@ -8,7 +8,10 @@ const TotalExpenses = ({data}) => {
         <Text style={styles.expensesText}>Net Worth</Text>
       </View>
       <View style={styles.expensesNumberView}>
-        <Text style={[styles.expensesNumber, {color: 'green'}]}>0</Text>
+        <Text
+          style={[styles.expensesNumber, {color: data >= 0 ? 'green' : 'red'}]}>
+          {data}
+        </Text>
       </View>
     </View>
   );

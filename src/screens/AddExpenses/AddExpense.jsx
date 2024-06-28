@@ -10,12 +10,42 @@ import React from 'react';
 import Header from '../../components/Header';
 import {Picker} from '@react-native-picker/picker';
 import {useState} from 'react';
+import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
 
 const AddExpense = () => {
-  const [type, setType] = useState();
+  const navigation = useNavigation();
+
+  const [type, setType] = useState('earned');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [value, setValue] = useState(0);
+
+  const handleSumbit = async () => {
+    if (!title || value === 0) {
+      return Toast.show({
+        type: 'error',
+        text1: 'Please enter a title and a value',
+      });
+    }
+
+    const data = {
+      type,
+      title,
+      description,
+      value,
+    };
+    console.log(data);
+
+    const existingData = await AsyncStorage.getItem('expenses');
+    const updatedData = existingData ? JSON.parse(existingData) : [];
+
+    updatedData.push(data);
+    await AsyncStorage.setItem('expenses', JSON.stringify(updatedData));
+    console.log(updatedData);
+    navigation.navigate('Home');
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -79,7 +109,7 @@ const AddExpense = () => {
         </View>
 
         <View style={styles.formInputView}>
-          <Pressable style={styles.AddExpensePressable}>
+          <Pressable style={styles.AddExpensePressable} onPress={handleSumbit}>
             <Text style={styles.AddExpenseText}>Add</Text>
           </Pressable>
         </View>

@@ -8,13 +8,47 @@ import {
 } from 'react-native';
 import React from 'react';
 import Header from '../../components/Header';
-
 import {Expenses, TotalExpenses, Divider, AllExpenses} from './components';
 import {expensesData} from '../../constants/seeds';
 import {useNavigation} from '@react-navigation/native';
+import {useState, useEffect} from 'react';
+import {useIsFocused} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = () => {
+  const [totalEarned, setTotalEarned] = useState(0);
+  const [totalSpent, setTotalSpent] = useState(0);
+  const [totalExpenses, setTotalExpenses] = useState(0);
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+
+  const fetchData = async () => {
+    const data = await AsyncStorage.getItem('expenses');
+    const parsedData = JSON.parse(data);
+
+    let spent = 0;
+    let earned = 0;
+    let total = 0;
+
+    parsedData.map(item => {
+      if (item.type == 'earned') {
+        earned += parseInt(item.value);
+      } else {
+        spent += parseInt(item.value);
+      }
+    });
+    total = earned - spent;
+
+    setTotalEarned(earned);
+    setTotalSpent(spent);
+    setTotalExpenses(total);
+
+    console.log('spent: ', spent, 'earned: ', earned, 'NetWorth: ', total);
+  };
+
+  useEffect(() => {
+    isFocused && fetchData();
+  }, [isFocused]);
   return (
     <View style={{flex: 1}}>
       <StatusBar
@@ -30,13 +64,13 @@ const Home = () => {
 
         {/* Expenses */}
         <View style={styles.expensesView}>
-          <Expenses type={'earned'} />
-          <Expenses type={'spent'} />
+          <Expenses type={'earned'} data={totalEarned} />
+          <Expenses type={'spent'} data={totalSpent} />
         </View>
 
         {/* Total Expenses */}
         <View style={styles.totalExpensesView}>
-          <TotalExpenses />
+          <TotalExpenses data={totalExpenses} />
         </View>
 
         {/* Add Expense */}

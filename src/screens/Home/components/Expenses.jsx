@@ -17,7 +17,7 @@ const Expenses = ({data, type}) => {
               {color: type == 'earned' ? 'green' : 'red'},
             ]}>
             {type == 'earned' ? '+ ' : '- '}
-            400
+            {data}
           </Text>
         </View>
       </View>

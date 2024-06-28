@@ -36,7 +36,6 @@ const AddExpense = () => {
       description,
       value,
     };
-    console.log(data);
 
     const existingData = await AsyncStorage.getItem('expenses');
     const updatedData = existingData ? JSON.parse(existingData) : [];

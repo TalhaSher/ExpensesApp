@@ -16,6 +16,7 @@ import {useIsFocused} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = () => {
+  const [allExpenses, setAllExpenses] = useState([]);
   const [totalEarned, setTotalEarned] = useState(0);
   const [totalSpent, setTotalSpent] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
@@ -26,15 +27,17 @@ const Home = () => {
     const data = await AsyncStorage.getItem('expenses');
     const parsedData = JSON.parse(data);
 
+    setAllExpenses(parsedData);
+
     let spent = 0;
     let earned = 0;
     let total = 0;
 
-    parsedData.map(item => {
-      if (item.type == 'earned') {
-        earned += parseInt(item.value);
+    parsedData.forEach(item => {
+      if (item.type === 'earned') {
+        earned += parseInt(item.value, 10);
       } else {
-        spent += parseInt(item.value);
+        spent += parseInt(item.value, 10);
       }
     });
     total = earned - spent;
@@ -42,8 +45,10 @@ const Home = () => {
     setTotalEarned(earned);
     setTotalSpent(spent);
     setTotalExpenses(total);
+  };
 
-    console.log('spent: ', spent, 'earned: ', earned, 'NetWorth: ', total);
+  const EmptyStorage = async () => {
+    await AsyncStorage.setItem('expenses', JSON.stringify([]));
   };
 
   useEffect(() => {
@@ -88,11 +93,12 @@ const Home = () => {
 
         {/* All Expenses */}
         <ScrollView contentContainerStyle={styles.allExpensesView}>
-          {expensesData.map((expense, index) => (
-            <View key={index} style={styles.allExpensesContainer}>
-              <AllExpenses data={expense} />
-            </View>
-          ))}
+          {allExpenses &&
+            allExpenses.map((expense, index) => (
+              <View key={index} style={styles.allExpensesContainer}>
+                <AllExpenses data={expense} />
+              </View>
+            ))}
         </ScrollView>
       </ScrollView>
     </View>

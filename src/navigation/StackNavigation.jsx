@@ -1,6 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Home} from '../screens/Home';
+import {AddExpense} from '../screens/AddExpenses';
 
 const Stack = createStackNavigator();
 
@@ -13,6 +14,7 @@ const StackNavigation = () => {
         animationEnabled: true,
       }}>
       <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="AddExpense" component={AddExpense} />
     </Stack.Navigator>
   );
 };

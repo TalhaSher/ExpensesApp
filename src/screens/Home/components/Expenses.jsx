@@ -16,6 +16,7 @@ const Expenses = ({data, type}) => {
               styles.expensesNumber,
               {color: type == 'earned' ? 'green' : 'red'},
             ]}>
+            {type == 'earned' ? '+ ' : '- '}
             400
           </Text>
         </View>

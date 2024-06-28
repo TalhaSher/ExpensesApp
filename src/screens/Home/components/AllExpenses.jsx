@@ -13,6 +13,7 @@ const AllExpenses = ({data}) => {
             styles.expensesNumber,
             {color: data.type == 'earned' ? 'green' : 'red'},
           ]}>
+          {data.type == 'earned' ? '+ ' : '- '}
           {data.value}
         </Text>
       </View>

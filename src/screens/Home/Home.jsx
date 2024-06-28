@@ -11,8 +11,10 @@ import Header from '../../components/Header';
 
 import {Expenses, TotalExpenses, Divider, AllExpenses} from './components';
 import {expensesData} from '../../constants/seeds';
+import {useNavigation} from '@react-navigation/native';
 
 const Home = () => {
+  const navigation = useNavigation();
   return (
     <View style={{flex: 1}}>
       <StatusBar
@@ -20,7 +22,9 @@ const Home = () => {
         backgroundColor="#fff"
         barStyle={'dark-content'}
       />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flex: 1}}>
         {/* Header */}
         <Header header={'Expenses.'} />
 
@@ -39,7 +43,9 @@ const Home = () => {
         <View style={styles.addExpenseView}>
           <View style={styles.addExpenseContainerView}>
             <Text style={styles.themedText}>Expenses</Text>
-            <Pressable>
+            <Pressable
+              style={styles.addExpensePressable}
+              onPress={() => navigation.navigate('AddExpense')}>
               <Text style={styles.themedText}>+</Text>
             </Pressable>
           </View>
@@ -47,14 +53,13 @@ const Home = () => {
         <Divider />
 
         {/* All Expenses */}
-        <View style={styles.allExpensesView}>
+        <ScrollView contentContainerStyle={styles.allExpensesView}>
           {expensesData.map((expense, index) => (
             <View key={index} style={styles.allExpensesContainer}>
               <AllExpenses data={expense} />
-              {/* <Text style={styles.themedText}>hello</Text> */}
             </View>
           ))}
-        </View>
+        </ScrollView>
       </ScrollView>
     </View>
   );
@@ -69,7 +74,7 @@ const styles = StyleSheet.create({
   },
   expensesView: {
     width: '100%',
-    height: '20%',
+    height: '15%',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     marginTop: 20,
@@ -99,5 +104,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 5,
+  },
+  addExpensePressable: {
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    backgroundColor: '#bdbdbd',
+    borderRadius: 5,
   },
 });

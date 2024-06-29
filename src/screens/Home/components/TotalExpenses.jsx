@@ -10,7 +10,7 @@ const TotalExpenses = ({data}) => {
       <View style={styles.expensesNumberView}>
         <Text
           style={[styles.expensesNumber, {color: data >= 0 ? 'green' : 'red'}]}>
-          {data >= 0 ? '+ ' : '- '}
+          {data > 0 && '+ '}
           {data}
         </Text>
       </View>

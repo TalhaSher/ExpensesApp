@@ -70,8 +70,16 @@ const Home = () => {
 
         {/* Expenses */}
         <View style={styles.expensesView}>
-          <Expenses type={'earned'} data={totalEarned} />
-          <Expenses type={'spent'} data={totalSpent} />
+          <Expenses
+            type={'earned'}
+            data={totalEarned}
+            onPress={() => navigation.navigate('Earned')}
+          />
+          <Expenses
+            type={'spent'}
+            data={totalSpent}
+            onPress={() => navigation.navigate('Spent')}
+          />
         </View>
 
         {/* Total Expenses */}

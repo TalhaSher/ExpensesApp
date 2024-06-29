@@ -18,12 +18,13 @@ const ExpenseDetails = () => {
 
     const updatedData = parsedData.filter(
       expense =>
-        !(expense.type === type,
-        expense.title === title,
-        expense.value === value,
-        expense.description === description),
+        !(
+          expense.type === type &&
+          expense.title === title &&
+          expense.value === value &&
+          expense.description === description
+        ),
     );
-
     await AsyncStorage.setItem('expenses', JSON.stringify(updatedData));
     navigation.navigate('Home');
   };

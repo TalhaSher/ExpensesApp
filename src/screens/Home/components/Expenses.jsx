@@ -1,9 +1,15 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Pressable} from 'react-native';
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 const Expenses = ({data, type}) => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.containerView}>
+    <Pressable
+      style={styles.containerView}
+      onPress={() =>
+        navigation.navigate(type == 'earned' ? 'Earned' : 'Spent')
+      }>
       <View style={styles.expensesView}>
         <View style={styles.expensesTextView}>
           <Text style={styles.expensesText}>
@@ -21,7 +27,7 @@ const Expenses = ({data, type}) => {
           </Text>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

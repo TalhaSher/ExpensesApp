@@ -8,12 +8,13 @@ import {
 } from 'react-native';
 import React from 'react';
 import Header from '../../components/Header';
-import {Expenses, TotalExpenses, Divider, AllExpenses} from './components';
-import {expensesData} from '../../constants/seeds';
+import {Expenses, TotalExpenses, AllExpenses} from './components';
+// import {expensesData} from '../../constants/seeds';
 import {useNavigation} from '@react-navigation/native';
 import {useState, useEffect} from 'react';
 import {useIsFocused} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Divider from '../../components/Divider';
 
 const Home = () => {
   const [allExpenses, setAllExpenses] = useState([]);
@@ -95,9 +96,14 @@ const Home = () => {
         <ScrollView contentContainerStyle={styles.allExpensesView}>
           {allExpenses &&
             allExpenses.map((expense, index) => (
-              <View key={index} style={styles.allExpensesContainer}>
+              <Pressable
+                key={index}
+                style={styles.allExpensesContainer}
+                onPress={() =>
+                  navigation.navigate('ExpenseDetails', {expense})
+                }>
                 <AllExpenses data={expense} />
-              </View>
+              </Pressable>
             ))}
         </ScrollView>
       </ScrollView>
